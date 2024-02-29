@@ -130,19 +130,12 @@ public final class Constants {
         //SECTION - Turning & Drive reverse values
         //NOTE - THIS IS THE FRONT TURNING ENCODER REVERSE VALUES
         //REVIEW - WE MAY NEED TO ALTER SOME CODE, MAKE SURE TO REVERT BACK TO THE OTHER VALUES IF CHANGED AND IT GETS WORSE!
-        // public static final boolean kFrontLeftTurningEncoderReversed = true;
-        // public static final boolean kFrontRightTurningEncoderReversed = true;
+        public static final boolean kFrontLeftTurningEncoderReversed = true; // false
+        public static final boolean kFrontRightTurningEncoderReversed = true; // false
 
-        // //NOTE - THIS IS THE BACK TURNING ENCODER REVERSE VALUES
-        // public static final boolean kBackLeftTurningEncoderReversed = true;
-        // public static final boolean kBackRightTurningEncoderReversed = true;
-
-
-        // DELETE THIS IF NO WORK UNCOMMENT WORK ABOVE
-        public static final boolean kFrontLeftTurningEncoderReversed = false;
-        public static final boolean kFrontRightTurningEncoderReversed = false;
-        public static final boolean kBackLeftTurningEncoderReversed = false;
-        public static final boolean kBackRightTurningEncoderReversed = false;
+        //NOTE - THIS IS THE BACK TURNING ENCODER REVERSE VALUES
+        public static final boolean kBackLeftTurningEncoderReversed = true; // was false
+        public static final boolean kBackRightTurningEncoderReversed = true; // was false
 
         //NOTE - THIS IS THE FRONT DRIVE REVERSE VALUES
         public static final boolean kFrontLeftDriveReversed = true;
@@ -162,20 +155,12 @@ public final class Constants {
 
         //SECTION - ABS Drive Encoder Reverse values
         //NOTE - THIS IS THE FRONT ABSOLUTE DRIVE ENCODER REVERSED
-        // public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = true;
-        // public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
+        public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = true;
+        public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
 
-        // //NOTE - THIS IS THE BACK ABSOLUTE DRIVE ENCODER REVERSED
-        // public static final boolean kBackLeftDriveAbsoluteEncoderReversed = true;
-        // public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
-
-
-
-        //IF NO WORK DELETE AND UNCOMMENT CODE ABOVE
-        public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
-        public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
-        public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
-        public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
+        //NOTE - THIS IS THE BACK ABSOLUTE DRIVE ENCODER REVERSED
+        public static final boolean kBackLeftDriveAbsoluteEncoderReversed = true;
+        public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
         //!SECTION
         
         //SECTION - OFFSET VALUES
@@ -231,5 +216,16 @@ public final class Constants {
         public static final double kDeadband = 0.05;
     }
 
+    public static final class Kinematics{
+        //public static final double shootVoltage = 7.5;
+        //public static final double reverseVoltage = 3.5;
+
+        //public static final double intakeVoltage = 5;
+
+        public static final double climbDownVoltage = .5;
+        public static final double climbUpVoltage = .5;
+    }
+
 }
+
 
