@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+/* 
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -24,8 +25,18 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.USB;
-import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.SwerveSubsystem;
+*/
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ClimberCommand;
+import frc.robot.subsystems.ClimberSubsystem;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,25 +45,18 @@ import frc.robot.subsystems.SwerveSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  public final static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
-  public final static XboxController driverController = new XboxController(OIConstants.kDriverControllerPort);
-  public final static XboxController operatorController = new XboxController(USB.OPERATOR_CONTROLLER);
+        // The robot's subsystems and commands are defined here...
+        private ClimberSubsystem climberSubsystem;
 
+        private final XboxController controller = new XboxController(0);
+        Trigger bButton = new JoystickButton(controller, XboxController.Button.kB.value);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem,
-     () -> -driverController.getRawAxis(OIConstants.kDriverYAxis), 
-     () -> driverController.getRawAxis(OIConstants.kDriverXAxis), 
-     () -> driverController.getRawAxis(OIConstants.kDriverRotAxis), 
-     () -> !driverController.getLeftBumper()));
-
-
-
-    // Configure the button bindings
-    configureBindings();
-  }
+        public RobotContainer() {
+                InitializeSubsystems();    
+                // Configure the button bindings
+                AssignCommands();
+        }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -60,52 +64,30 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureBindings() {
-  }
+
+        private void InitializeSubsystems()
+        {
+                WPI_TalonFX leftArmMotor = new WPI_TalonFX(23);
+                WPI_TalonFX rightArmMotor = new WPI_TalonFX(22);
+                climberSubsystem = new ClimberSubsystem(leftArmMotor, rightArmMotor);
+        }
+
+        private void AssignCommands() 
+        {
+                Command climberCommand = new ClimberCommand(
+                        climberSubsystem,
+                        () -> -controller.getRawAxis(3)); 
+                
+                climberSubsystem.setDefaultCommand(climberCommand);
+        }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-        // 1. Create trajectory settings
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-                AutoConstants.kMaxSpeedMetersPerSecond,
-                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                        .setKinematics(DriveConstants.kDriveKinematics);
-
-        // 2. Generate trajectory
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0, 0, new Rotation2d(0)),
-                List.of(
-                        new Translation2d(0.075, 0),
-                        new Translation2d(0.-.075, 0)),
-                new Pose2d(-0.25 , 0.01, Rotation2d.fromDegrees(0)),
-                trajectoryConfig);
-
-        // 3. Define PID controllers for tracking trajectory
-        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-        ProfiledPIDController thetaController = new ProfiledPIDController(
-                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-        // 4. Construct command to follow trajectory
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                trajectory,
-                swerveSubsystem::getPose,
-                DriveConstants.kDriveKinematics,
-                xController,
-                yController,
-                thetaController,
-                swerveSubsystem::setModuleStates,
-                swerveSubsystem);
-
-        // 5. Add some init and wrap-up, and return everything
-        return new SequentialCommandGroup(
-          new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-          swerveControllerCommand,
-          new InstantCommand(() -> swerveSubsystem.stopModules()));
-    }
+  //public Command getAutonomousCommand() {
+        // public Command getProgrammingSomeSleep()
+        //ASkfhgkjbSLCHKSlkhkjsdng;ksjrth;kjsrkjgaso;dfhljerhglsehrg :D
+  //      }
 }
